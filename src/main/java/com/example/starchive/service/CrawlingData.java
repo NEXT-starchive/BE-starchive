@@ -8,4 +8,6 @@ import java.util.List;
 public interface CrawlingData {
 
     Page<?> getData(Pageable pageable);
+
+    public void crawlData();
 }

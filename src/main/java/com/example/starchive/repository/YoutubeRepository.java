@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface YoutubeRepository extends JpaRepository<Youtube, String> {
 
-    Page<Youtube> findByAll(Pageable pageable);
+    Page<Youtube> findAll(Pageable pageable);
 
 
 }
