@@ -11,7 +11,7 @@ public class TwitterResDto {
 
     private String name;
 
-    private String title;
+    private String content;
 
     private String img;
 
@@ -22,7 +22,7 @@ public class TwitterResDto {
     public TwitterResDto(Twitter twitter) {
         this.id = twitter.getId();
         this.name = twitter.getName();
-        this.title = twitter.getTitle();
+        this.content = twitter.getContent();
         this.img = twitter.getImg();
         this.url = twitter.getUrl();
         this.uploadTime = twitter.getUploadTime();

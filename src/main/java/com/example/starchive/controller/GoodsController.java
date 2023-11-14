@@ -18,7 +18,6 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
-
 public class GoodsController {
 
     private final GoodsService goodsService;

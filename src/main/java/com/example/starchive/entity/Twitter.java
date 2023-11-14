@@ -1,8 +1,6 @@
 package com.example.starchive.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,7 +21,7 @@ public class Twitter {
     private String name;
 
     @Column
-    private String title;
+    private String content;
 
     @Column
     private String img;
@@ -33,4 +31,13 @@ public class Twitter {
 
     @Column
     private LocalDateTime uploadTime;
+
+    @Builder
+    public Twitter( String name, String content, String img, String url, LocalDateTime uploadTime){
+        this.name = name;
+        this.content = content;
+        this.img = img;
+        this.url = url;
+        this.uploadTime = uploadTime;
+    }
 }
