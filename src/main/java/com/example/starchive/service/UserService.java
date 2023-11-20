@@ -1,12 +1,16 @@
 package com.example.starchive.service;
 
 
+import com.example.starchive.dto.ResponseDto.UserResDto;
+import com.example.starchive.dto.ResponseDto.UserResDto.*;
 import com.example.starchive.entity.User;
+import com.example.starchive.exception.CustomDBException;
 import com.example.starchive.exception.CustomException;
 import com.example.starchive.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -47,6 +51,24 @@ public class UserService {
         Long diffDay = ChronoUnit.DAYS.between(user.getFirstday(), currentTime);
 
         return diffDay.intValue();
+    }
+
+    @Transactional
+    public UserInfoResDto register(String userId) {
+        // find user by id
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomDBException("no user exists for the given id"));
+
+        // update user role
+        user.register();
+        userRepository.save(user);
+
+        // return user info
+        return UserInfoResDto.builder()
+                .id(user.getUserId())
+                .nickname(user.getName())
+                .role(user.getRole())
+                .build();
     }
 
 
