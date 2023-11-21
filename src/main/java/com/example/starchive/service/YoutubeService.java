@@ -24,10 +24,6 @@ import java.time.temporal.ChronoUnit;
 import java.time.LocalTime;
 import java.util.List;
 import java.time.Duration;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 @Service
 @RequiredArgsConstructor
@@ -44,21 +40,6 @@ public class YoutubeService implements CrawlingData {
 
   public void crawlData() {
 
-    //    String youtubePath = "https://www.youtube.com/@BTS/videos";
-    //
-    //    Document doc = Jsoup.connect(youtubePath).get();
-    //
-    //    Element outerContainer = doc.selectFirst("#contents");
-    //    Elements innerRow;
-    //    try {
-    //      innerRow = outerContainer.select(".ytd-rich-grid-renderer");
-    //    } catch (NullPointerException nullPointerException) {
-    //      System.out.print("no inner row");
-    //      return;
-    //    }
-    //    for (Element element : innerRow) {
-    //
-    //    }
 
     String chromeDriverPath = "C:/Users/Liam/Downloads/chromedriver_win64/chromedriver.exe";
     System.setProperty("webdriver.chrome.driver", chromeDriverPath);
@@ -97,7 +78,11 @@ public class YoutubeService implements CrawlingData {
   }
 
   private LocalDateTime calculateUploadHour(String timeAgo) {
-    int hours = Integer.parseInt(timeAgo.split(" ")[0]);
+    int hours;
+    if(timeAgo.contains("min") || timeAgo.contains("sec") || timeAgo.contains("초") || timeAgo.contains("분"))
+      hours =0;
+    else hours = Integer.parseInt(timeAgo.replaceAll("\\D+", ""));
+
     ZoneId zoneId = ZoneId.of("Asia/Seoul"); // Korea Standard Time
     LocalDateTime time = LocalDateTime.now(zoneId).minusHours(hours);
     return time;
@@ -116,7 +101,7 @@ public class YoutubeService implements CrawlingData {
             "./div/ytd-rich-grid-media/div[1]/div[3]/div[1]/ytd-video-meta-block/div[1]/div[2]";
         String time = element.findElement(By.xpath(metaDataXpath + "/span[2]")).getText();
         // only today
-        if (time.contains("days")) {
+        if (time.contains("days") || time.contains("일")) {
           System.out.print("today's post ended\n");
           return youtubeInstances;
         }
@@ -135,11 +120,12 @@ public class YoutubeService implements CrawlingData {
         String videoLengthXpath =
             "./div/ytd-rich-grid-media/div[1]/div[1]/ytd-thumbnail/a/div[1]/ytd-thumbnail-overlay-time-status-renderer/div/span";
         String videoLength = element.findElement(By.xpath(videoLengthXpath)).getText();
-        // YoutubeCrawlingDto youtubeInstance =
+
 
         YoutubeCrawlingDto youtubeInstance =
             new YoutubeCrawlingDto(title, imgSrc, url, videoLength, uploadTime, views);
         youtubeInstances.add(youtubeInstance);
+        System.out.print("\n + crawling: "+ youtubeInstance + "\n");
       }
       ((JavascriptExecutor) driver).executeScript("window.scrollBy(0,700)");
       CrawlUtils.stall();

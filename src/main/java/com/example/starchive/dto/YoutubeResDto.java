@@ -16,6 +16,10 @@ public class YoutubeResDto {
 
     private String url;
 
+    private String videoLength;
+
+    private String views;
+
     private LocalDateTime uploadTime;
 
     public YoutubeResDto(Youtube youtube) {
@@ -24,6 +28,8 @@ public class YoutubeResDto {
         this.title = youtube.getTitle();
         this.img = youtube.getImg();
         this.url = youtube.getUrl();
+        this.videoLength = youtube.getVideoLength();
+        this.views = youtube.getViews();
         this.uploadTime = youtube.getUploadTime();
     }
 }
