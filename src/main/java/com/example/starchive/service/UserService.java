@@ -22,6 +22,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    @Transactional
     public void updateTextBalloon(String id, String textBallon) {
         User user = userRepository.findById(id).orElseThrow(()-> new CustomException("오류입니다."));
 
@@ -30,6 +31,7 @@ public class UserService {
         userRepository.save(user);
     }
 
+    @Transactional
     public void updateFirstDay(String id, LocalDateTime firstDay) {
         User user = userRepository.findById(id).orElseThrow(()-> new CustomException("오류입니다."));
 

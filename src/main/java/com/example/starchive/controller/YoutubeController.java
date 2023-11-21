@@ -20,7 +20,7 @@ public class YoutubeController {
     private final YoutubeService youtubeService;
 
     @GetMapping("/api/youtube")
-    public ResponseEntity homeReserve(@AuthenticationPrincipal LoginUser loginUser, Pageable pageable) {
+    public ResponseEntity getYoutube(@AuthenticationPrincipal LoginUser loginUser, Pageable pageable) {
         Page<YoutubeResDto> goodsDtoList = youtubeService.getData(pageable);
         return new ResponseEntity<>(new ResponseDto<>(1, "정보를 성공적으로 가져왔습니다.", goodsDtoList), HttpStatus.OK);
     }
