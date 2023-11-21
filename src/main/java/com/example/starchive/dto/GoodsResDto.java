@@ -10,13 +10,15 @@ public class GoodsResDto {
 
     private String shop;
 
-    private Integer price;
+    private String price;
 
     private String title;
 
     private String img;
 
     private String url;
+
+    private String area;
 
     private LocalDateTime uploadTime;
 
@@ -27,6 +29,7 @@ public class GoodsResDto {
         this.title = goods.getTitle();
         this.img = goods.getImg();
         this.url = goods.getUrl();
+        this.area = goods.getArea();
         this.uploadTime = goods.getUploadTime();
     }
 
