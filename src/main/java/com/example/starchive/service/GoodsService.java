@@ -39,11 +39,7 @@ public class GoodsService implements CrawlingData {
   }
 
   public void crawlData() {
-    String chromeDriverPath = "C:/Users/Liam/Downloads/chromedriver_win64/chromedriver.exe";
-    System.setProperty("webdriver.chrome.driver", chromeDriverPath);
-
-    // define array list of youtube instance
-
+    //chrome path already in starchiveApp
     ChromeDriver driver = new ChromeDriver(CrawlUtils.makeConfig());
     driver.get(
         "https://m.bunjang.co.kr/search/products?category_id=910&order=score&q=%EB%B0%A9%ED%83%84%EC%86%8C%EB%85%84%EB%8B%A8");
