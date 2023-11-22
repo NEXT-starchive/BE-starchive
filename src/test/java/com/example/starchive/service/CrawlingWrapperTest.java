@@ -33,7 +33,7 @@ public class CrawlingWrapperTest {
   @Test
   public void testCrawlData() {
     // Act
-    crawlingWrapper.crawlWrap();
+    crawlingWrapper.crawlWrap(5);
     // Assert
     // Here, you would typically verify the results of the crawl.
     // For example, you could check if the expected data was inserted into the database.

@@ -18,7 +18,7 @@ public class CrawlingWrapper {
 
   // Constructor with @Autowired for services
 
-  private void executeWithRetry(Runnable task, String taskName) {
+  private void executeWithRetry(Runnable task, String taskName, int interval) {
     int attempts = 0;
     while (attempts < 3) {
       try {
@@ -29,7 +29,7 @@ public class CrawlingWrapper {
         System.out.println("Error during " + taskName + " on attempt " + attempts + ": " + e.getMessage());
         if (attempts < 3) {
           try {
-            TimeUnit.MINUTES.sleep(1); // Wait for 1 minute before retrying
+            TimeUnit.SECONDS.sleep(interval); // Wait for 1 minute before retrying
           } catch (InterruptedException ie) {
             Thread.currentThread().interrupt();
             throw new IllegalStateException("Task interrupted", ie);
@@ -58,14 +58,13 @@ public class CrawlingWrapper {
     System.out.println("YouTube crawl complete.");
   }
 
-  public void crawlWrap() {
-    executeWithRetry(this::crawlGoods, "Goods Crawl");
-    executeWithRetry(this::crawlTwitter, "Twitter Crawl");
-    executeWithRetry(this::crawlYoutube, "YouTube Crawl");
+  public void crawlWrap(int interval) {
+    executeWithRetry(this::crawlGoods, "Goods Crawl", interval);
+    executeWithRetry(this::crawlTwitter, "Twitter Crawl", interval);
+    executeWithRetry(this::crawlYoutube, "YouTube Crawl",interval);
   }
-
   @Scheduled(cron = "0 0 0 * * ?")
   public void runCrawl() {
-    crawlWrap();
+    crawlWrap(60);
   }
 }
