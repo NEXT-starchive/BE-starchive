@@ -21,6 +21,12 @@ public class exceptionHandler {
         return new ResponseEntity(new ResponseDto(-1, exception.getMessage(), 0), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(CustomApiException.class)
+    protected ResponseEntity customApiExceptionHandler(CustomApiException exception) {
+        log.error(exception.getMessage());
+        return new ResponseEntity(new ResponseDto(-1, exception.getMessage(), 0), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(MethodNotAllowedException.class)
     protected ResponseEntity methodnotAllowedExceptionHandler(MethodNotAllowedException exception){
         log.error(exception.getMessage());
@@ -37,6 +43,12 @@ public class exceptionHandler {
     protected ResponseEntity invalidFormatExceptionHandler(InvalidFormatException exception) {
         log.error(exception.getMessage());
         return new ResponseEntity(new ResponseDto(-1, "요청된 Request가 format에 맞지 않습니다.", 0), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CustomForbiddenException.class)
+    protected ResponseEntity customForbiddenExceptionHandler(CustomForbiddenException exception) {
+        log.error(exception.getMessage());
+        return new ResponseEntity(new ResponseDto(-1, exception.getMessage(), 0), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NullPointerException.class)
