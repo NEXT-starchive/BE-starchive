@@ -57,9 +57,7 @@ public class YoutubeService implements CrawlingData {
                   ((JavascriptExecutor) webDriver)
                       .executeScript("return document.readyState")
                       .equals("complete"));
-
       // define wait
-
       String stackSet =
           "/html/body/ytd-app/div[1]/ytd-page-manager/ytd-browse/ytd-two-column-browse-results-renderer/div[1]/ytd-rich-grid-renderer/div[6]/ytd-rich-grid-row";
       List<WebElement> contentStacks = driver.findElements(By.xpath(stackSet));

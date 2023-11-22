@@ -112,9 +112,9 @@ public class TwitterService implements CrawlingData {
     // preparing for storing data
     Set<String> uniqueTexts = new HashSet<>();
     List<TweetsCrawlingDto> results = new ArrayList<>();
-
+    Boolean ended = false;
     try {
-      while (true) {
+      while (!ended) {
         List<WebElement> tweets =
             driver.findElements(
                 By.xpath(
@@ -140,10 +140,9 @@ public class TwitterService implements CrawlingData {
             boolean isToday = uploadTimeLocal.toLocalDate().equals(todayUtc);
             if (!isToday) {
               System.out.print("\ntoday's tweet ended\n");
-              // check if you want to abort
+              ended = true;
               break;
             }
-
             // go to tweet block and get below contents(span, img)
             WebElement tweetContent =
                 tweet.findElement(By.xpath("./div/div/article/div/div/div[2]/div[2]/div[2]"));
@@ -163,8 +162,10 @@ public class TwitterService implements CrawlingData {
             // reset
             i = 0;
             // add to array
+            TweetsCrawlingDto tweetInstance = new TweetsCrawlingDto(content, url, img, uploadTimeLocal);
+//            System.out.print(tweetInstance + "\n");
             if (results.size() < 4)
-              results.add(new TweetsCrawlingDto(content, url, img, uploadTimeLocal));
+              results.add(tweetInstance);
             else break;
             wait.until(
                 ExpectedConditions.presenceOfElementLocated(
@@ -206,7 +207,6 @@ public class TwitterService implements CrawlingData {
     CrawlUtils.inputElement(wait, emailXpath, "email input", "hyukjun1111@gmail.com");
     //    emailInput.sendKeys("hyukjun1111@gmail.com" + Keys.ENTER);
     // putting in my username
-
     String userNameXpath ="/html/body/div[1]/div/div/div[1]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div[2]/label/div/div[2]/div/input";
     CrawlUtils.inputElement(wait, userNameXpath, "username input", "@ihyeogj24056742");
     //    WebElement usernameInput =

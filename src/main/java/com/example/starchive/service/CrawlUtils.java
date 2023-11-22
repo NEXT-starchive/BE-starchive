@@ -13,32 +13,34 @@ public class CrawlUtils {
     WebElement webInput = null;
     try {
       webInput = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
+      webInput.click();
     } catch (TimeoutException err) {
       try {
-        System.out.print("\nerror" + task + "first click attempt failed\n");
+        System.out.print("\nerror " + task + "first click attempt failed\n");
         CrawlUtils.stall();
         webInput = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
-      }
-       catch (TimeoutException timeout2) {
-        System.out.print("\nerror" + task + "is not clickable\n");
+      } catch (TimeoutException timeout2) {
+        System.out.print("\nerror " + task + "is not clickable\n");
       }
     }
     System.out.print("\n" + task + " completed\n");
     webInput.sendKeys(inputData + Keys.ENTER);
   }
-  public static void stall(){
-    try{
+
+  public static void stall() {
+    try {
       Thread.sleep(2000);
-    } catch (InterruptedException interruptedException){
+    } catch (InterruptedException interruptedException) {
       Thread.currentThread().interrupt();
     }
   }
+
   public static ChromeOptions makeConfig() {
     ChromeOptions options = new ChromeOptions();
     options.addArguments("--window-size=1920,1080");
-   //    options.addArguments("--headless"); // Browser를 띄우지 않음
-//    options.addArguments("--disable-gpu"); // GPU를 사용하지 않음, Linux에서 headless를 사용하는 경우 필요함.
-//    options.addArguments("--no-sandbox");
+    options.addArguments("--headless"); // Browser를 띄우지 않음
+    options.addArguments("--disable-gpu"); // GPU를 사용하지 않음, Linux에서 headless를 사용하는 경우 필요함.
+    options.addArguments("--no-sandbox");
     options.addArguments("--remote-allow-origins=*");
     return options;
   }
