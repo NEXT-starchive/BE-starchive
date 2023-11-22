@@ -28,6 +28,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.seleniumhq.selenium:selenium-java:4.15.0'
+	implementation 'me.paulschwarz:spring-dotenv:3.0.0'
+	annotationProcessor 'org.projectlombok:lombok'
 	compileOnly 'org.projectlombok:lombok'
 	implementation 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
