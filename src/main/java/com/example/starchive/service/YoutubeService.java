@@ -39,11 +39,7 @@ public class YoutubeService implements CrawlingData {
   }
 
   public void crawlData() {
-
-
-    String chromeDriverPath = "C:/Users/Liam/Downloads/chromedriver_win64/chromedriver.exe";
-    System.setProperty("webdriver.chrome.driver", chromeDriverPath);
-
+    //chrome path already in starchiveApp
     // define array list of youtube instance
     List<YoutubeCrawlingDto> youtubeInstances;
     ChromeDriver driver = new ChromeDriver(CrawlUtils.makeConfig());

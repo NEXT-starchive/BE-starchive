@@ -79,10 +79,7 @@ public class TwitterService implements CrawlingData {
   }
 
   public void crawlData() {
-
-    String chromeDriverPath = "C:/Users/Liam/Downloads/chromedriver_win64/chromedriver.exe";
-    System.setProperty("webdriver.chrome.driver", chromeDriverPath);
-
+    //chrome path already in starchiveApp
     ChromeDriver driver = new ChromeDriver(CrawlUtils.makeConfig());
     driver.get("https://twitter.com/bts_bighit");
 

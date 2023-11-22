@@ -1,32 +1,71 @@
 package com.example.starchive.service;
-
-import com.example.starchive.entity.Twitter;
-import org.openqa.selenium.TimeoutException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class CrawlingWrapper {
   @Autowired
-  private GoodsService goodsService;
+  private  GoodsService goodsService;
   @Autowired
-  private TwitterService twitterService;
+  private  TwitterService twitterService;
   @Autowired
-  private YoutubeService youtubeService;
+  private  YoutubeService youtubeService;
+  private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-  public void crawlWrap(){
-    goodsService.crawlData();
-    System.out.print("\ngoods complete\n");
-    twitterService.crawlData();
-    System.out.print("\ntwitter complete\n");
-    youtubeService.crawlData();
-    System.out.print("\nyoutube complete\n");
+  // Constructor with @Autowired for services
+
+  private void executeWithRetry(Runnable task, String taskName) {
+    int attempts = 0;
+    while (attempts < 3) {
+      try {
+        attempts++;
+        task.run();
+        return; // Successful execution, exit the method
+      } catch (Exception e) {
+        System.out.println("Error during " + taskName + " on attempt " + attempts + ": " + e.getMessage());
+        if (attempts < 3) {
+          try {
+            TimeUnit.MINUTES.sleep(1); // Wait for 1 minute before retrying
+          } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+            throw new IllegalStateException("Task interrupted", ie);
+          }
+        }
+      }
+    }
+    System.out.println(taskName + " failed after 3 attempts");
   }
 
+  private void crawlGoods() {
+    System.out.println("Starting Goods crawl...");
+    goodsService.crawlData();
+    System.out.println("Goods crawl complete.");
+  }
+
+  private void crawlTwitter() {
+    System.out.println("Starting Twitter crawl...");
+    twitterService.crawlData();
+    System.out.println("Twitter crawl complete.");
+  }
+
+  private void crawlYoutube() {
+    System.out.println("Starting YouTube crawl...");
+    youtubeService.crawlData();
+    System.out.println("YouTube crawl complete.");
+  }
+
+  public void crawlWrap() {
+    executeWithRetry(this::crawlGoods, "Goods Crawl");
+    executeWithRetry(this::crawlTwitter, "Twitter Crawl");
+    executeWithRetry(this::crawlYoutube, "YouTube Crawl");
+  }
 
   @Scheduled(cron = "0 0 0 * * ?")
-  public void runCrawl(){
-    this.crawlWrap();
+  public void runCrawl() {
+    crawlWrap();
   }
 }
