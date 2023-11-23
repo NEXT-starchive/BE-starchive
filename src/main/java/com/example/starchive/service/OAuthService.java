@@ -110,7 +110,7 @@ public class OAuthService {
 
     private User saveOrUpdateUser(SocialUserInfo socialUserInfo) {
         // save or create user
-        User user = userRepository.findById(socialUserInfo.getSocialId())
+        User user = userRepository.findByUserId(socialUserInfo.getSocialId())
                 .orElse(User.builder()
                         .userId(socialUserInfo.getSocialId())
                         .name(socialUserInfo.getNickname())

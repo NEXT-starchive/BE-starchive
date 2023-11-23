@@ -24,7 +24,7 @@ public class UserService {
 
     @Transactional
     public void updateTextBalloon(String id, String textBallon) {
-        User user = userRepository.findById(id).orElseThrow(()-> new CustomException("오류입니다."));
+        User user = userRepository.findByUserId(id).orElseThrow(()-> new CustomException("오류입니다."));
 
         user.changeTextBalloon(textBallon);
 
@@ -33,7 +33,7 @@ public class UserService {
 
     @Transactional
     public void updateFirstDay(String id, LocalDateTime firstDay) {
-        User user = userRepository.findById(id).orElseThrow(()-> new CustomException("오류입니다."));
+        User user = userRepository.findByUserId(id).orElseThrow(()-> new CustomException("오류입니다."));
 
         user.changeFirstday(firstDay);
 
@@ -41,13 +41,13 @@ public class UserService {
     }
 
     public String getTextBalloon(String id) {
-        User user = userRepository.findById(id).orElseThrow(()-> new CustomException("오류입니다."));
+        User user = userRepository.findByUserId(id).orElseThrow(()-> new CustomException("오류입니다."));
 
         return user.getTextballoon();
     }
 
     public Integer getFirstday(String id) {
-        User user = userRepository.findById(id).orElseThrow(()-> new CustomException("오류입니다."));
+        User user = userRepository.findByUserId(id).orElseThrow(()-> new CustomException("오류입니다."));
 
         LocalDateTime currentTime = LocalDateTime.now();
         Long diffDay = ChronoUnit.DAYS.between(user.getFirstday(), currentTime);
@@ -58,7 +58,7 @@ public class UserService {
     @Transactional
     public UserInfoResDto register(String userId) {
         // find user by id
-        User user = userRepository.findById(userId)
+        User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new CustomDBException("no user exists for the given id"));
 
         // update user role
