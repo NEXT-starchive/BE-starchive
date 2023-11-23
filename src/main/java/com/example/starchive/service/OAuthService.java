@@ -60,6 +60,19 @@ public class OAuthService {
                 .block()
                 .getAccess_token();
     }
+
+    public LoginSuccessResDto renewJWT(String userId, String username, Role role, String refreshJWT) {
+
+        String accessToken = jwtProcess.createJWT(userId, role.getRole(), username, JwtProcess.TokenType.ACCESS);
+
+        String refreshToken = jwtProcess.createJWT(userId, role.getRole(), username, JwtProcess.TokenType.REFRESH);
+
+        return LoginSuccessResDto.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
+    }
+
     public LoginSuccessResDto saveOrUpdate(SocialUserInfo socialUserInfo) {
 
         // save or update user
@@ -107,4 +120,6 @@ public class OAuthService {
                         .build());
         return userRepository.save(user);
     }
+
+
 }

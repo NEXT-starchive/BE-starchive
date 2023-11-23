@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +39,13 @@ public class UserController {
         LoginResDto.LoginSuccessResDto loginSuccessResDto = oAuthService.saveOrUpdate(socialUserInfo);
 
         return new ResponseEntity<>(new ResponseDto<>(1, "로그인 성공", loginSuccessResDto), HttpStatus.OK);
+    }
+
+    @PatchMapping("/api/relogin")
+    public ResponseEntity renewJWT(@AuthenticationPrincipal LoginUser loginUser, HttpServletRequest request) {
+        String refreshJWT = request.getHeader("ACCESS_AUTHORIZATION");
+        LoginResDto.LoginSuccessResDto loginSuccessResDto = oAuthService.renewJWT(loginUser.getUser().getUserId(),loginUser.getUser().getName() ,loginUser.getUser().getRole(), refreshJWT);
+        return new ResponseEntity<>(new ResponseDto<>(1, "JWT 갱신 성공", loginSuccessResDto), HttpStatus.OK);
     }
 
     @PostMapping("/firstday")
