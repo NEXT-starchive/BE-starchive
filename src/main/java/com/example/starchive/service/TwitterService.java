@@ -51,8 +51,9 @@ public class TwitterService implements CrawlingData {
     return goodsDtoList;
   }
 
+
   // content has multiple elements(icons, a, span sort) this is for sorting and marking
-  public String crawlContent(WebElement div) {
+  private String crawlContent(WebElement div) {
     List<WebElement> belowContents = div.findElements(By.xpath(".//*"));
 
     StringBuilder contents = new StringBuilder();
@@ -70,9 +71,19 @@ public class TwitterService implements CrawlingData {
             .append("`")
             .append(element.getAttribute("src"))
             .append("`"); // Add the src attribute of the img
-      } else {
+
+      } //check for span
+//      else if(element.getTagName().equals("span")){
+//        //get strings under the span
+//
+//        String spanBelowContent = crawlContent(element);}
+      else {
+        String text = element.getText();
         // else just get the text if it has #it is considered as <a>
-        contents.append(element.getText());
+        if(!contents.toString().contains(text))
+          contents.append(text);
+        else
+          System.out.print(text + "\n");
       }
     }
     return contents.toString().trim();
@@ -90,7 +101,7 @@ public class TwitterService implements CrawlingData {
                     .executeScript("return document.readyState")
                     .equals("complete"));
 
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(6));
     // wait and click login
     CrawlUtils.stall();
     // login to twitter
