@@ -13,23 +13,25 @@ public class CrawlUtils {
     WebElement webInput = null;
     try {
       webInput = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
+      stall();
       webInput.click();
     } catch (TimeoutException err) {
       try {
         System.out.print("\nerror " + task + "first click attempt failed\n");
-        CrawlUtils.stall();
+        stall();
         webInput = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
       } catch (TimeoutException timeout2) {
         System.out.print("\nerror " + task + "is not clickable\n");
       }
     }
-    System.out.print("\n" + task + " completed\n");
+
     webInput.sendKeys(inputData + Keys.ENTER);
+    System.out.print("\n" + task + " completed\n");
   }
 
   public static void stall() {
     try {
-      Thread.sleep(2000);
+      Thread.sleep(3000);
     } catch (InterruptedException interruptedException) {
       Thread.currentThread().interrupt();
     }
