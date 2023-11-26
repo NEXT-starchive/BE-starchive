@@ -66,7 +66,8 @@ public class YoutubeService implements CrawlingData {
     for (int i = 0; i < youtubeInstances.size(); i++) {
       YoutubeCrawlingDto youtubeInstance = youtubeInstances.get(i);
       System.out.print("Index " + i + ": " + youtubeInstance);
-      youtubeInstance.toEntity();
+      Youtube instance = youtubeInstance.toEntity();
+      youtubeRepository.save(instance);
     }
     System.out.print("\ndone\n");
   }
