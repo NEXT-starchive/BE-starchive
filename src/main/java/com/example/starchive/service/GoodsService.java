@@ -39,7 +39,7 @@ public class GoodsService implements CrawlingData {
   }
 
   public void crawlData() {
-    //chrome path already in starchiveApp
+    // chrome path already in starchiveApp
     ChromeDriver driver = new ChromeDriver(CrawlUtils.makeConfig());
     driver.get(
         "https://m.bunjang.co.kr/search/products?category_id=910&order=score&q=%EB%B0%A9%ED%83%84%EC%86%8C%EB%85%84%EB%8B%A8");
@@ -83,7 +83,8 @@ public class GoodsService implements CrawlingData {
     for (int i = 0; i < goodsInstances.size(); i++) {
       GoodsCrawlingDto goodsInstance = goodsInstances.get(i);
       System.out.print("Index " + i + ": " + goodsInstance);
-      goodsInstance.toEntity();
+      Goods instance = goodsInstance.toEntity();
+      goodsRepository.save(instance);
     }
     System.out.print("\ndone\n");
     driver.close();

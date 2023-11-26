@@ -20,6 +20,7 @@ public class CrawlUtils {
         System.out.print("\nerror " + task + "first click attempt failed\n");
         stall();
         webInput = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
+        webInput.click();
       } catch (TimeoutException timeout2) {
         System.out.print("\nerror " + task + "is not clickable\n");
       }
