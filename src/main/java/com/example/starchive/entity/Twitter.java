@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 import org.hibernate.annotations.GenericGenerator;
+import javax.persistence.Lob;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,11 +19,13 @@ public class Twitter {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;;
+  private Long id;
 
   @Column private String name;
 
-  @Column private String content;
+  @Lob
+  @Column(name = "content", columnDefinition = "LONGTEXT")
+  private String content;
 
   @Column private String img;
 
