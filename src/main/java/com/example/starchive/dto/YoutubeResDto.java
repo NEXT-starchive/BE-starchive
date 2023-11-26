@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 public class YoutubeResDto {
 
-    private String id;
+    private Long id;
 
     private String name;
 
