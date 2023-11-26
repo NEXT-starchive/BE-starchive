@@ -1,5 +1,7 @@
 package com.example.starchive.entity;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,13 +12,16 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 import net.bytebuddy.asm.Advice.Local;
+import org.hibernate.annotations.GenericGenerator;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Entity
 public class Goods {
-  @Id private String id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
   @Column private String shop;
 

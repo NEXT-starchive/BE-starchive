@@ -65,6 +65,6 @@ public class CrawlingWrapper {
   }
   @Scheduled(cron = "0 0 0 * * ?")
   public void runCrawl() {
-    crawlWrap(60);
+    crawlWrap(5);
   }
 }

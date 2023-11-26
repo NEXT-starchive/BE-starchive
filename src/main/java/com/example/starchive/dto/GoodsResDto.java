@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 public class GoodsResDto {
 
-    private String id;
+    private Long id;
 
     private String shop;
 

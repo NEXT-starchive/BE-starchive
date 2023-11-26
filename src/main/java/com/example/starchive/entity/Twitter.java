@@ -1,11 +1,14 @@
 package com.example.starchive.entity;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
+import org.hibernate.annotations.GenericGenerator;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,7 +16,9 @@ import java.time.LocalDateTime;
 @Entity
 public class Twitter {
 
-  @Id private String id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;;
 
   @Column private String name;
 

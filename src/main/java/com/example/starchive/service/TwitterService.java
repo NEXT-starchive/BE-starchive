@@ -51,8 +51,9 @@ public class TwitterService implements CrawlingData {
     return goodsDtoList;
   }
 
+
   // content has multiple elements(icons, a, span sort) this is for sorting and marking
-  public String crawlContent(WebElement div) {
+  private String crawlContent(WebElement div) {
     List<WebElement> belowContents = div.findElements(By.xpath(".//*"));
 
     StringBuilder contents = new StringBuilder();
@@ -70,9 +71,19 @@ public class TwitterService implements CrawlingData {
             .append("`")
             .append(element.getAttribute("src"))
             .append("`"); // Add the src attribute of the img
-      } else {
+
+      } //check for span
+//      else if(element.getTagName().equals("span")){
+//        //get strings under the span
+//
+//        String spanBelowContent = crawlContent(element);}
+      else {
+        String text = element.getText();
         // else just get the text if it has #it is considered as <a>
-        contents.append(element.getText());
+        if(!contents.toString().contains(text))
+          contents.append(text);
+        else
+          System.out.print(text + "\n");
       }
     }
     return contents.toString().trim();
@@ -90,7 +101,7 @@ public class TwitterService implements CrawlingData {
                     .executeScript("return document.readyState")
                     .equals("complete"));
 
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(6));
     // wait and click login
     CrawlUtils.stall();
     // login to twitter
@@ -186,7 +197,8 @@ public class TwitterService implements CrawlingData {
     for (int i = 0; i < results.size(); i++) {
       TweetsCrawlingDto tweet = results.get(i);
       System.out.println("Index " + i + ": " + tweet);
-      tweet.toEntity();
+      Twitter instance = tweet.toEntity();
+      twitterRepository.save(instance);
     }
     System.out.print("done");
   }
@@ -198,10 +210,30 @@ public class TwitterService implements CrawlingData {
   }
 
   private void login(WebDriverWait wait) {
-    // putting in my email
-    String emailXpath =
+    //check for
+    try{String emailXpath =
         "/html/body/div[1]/div/div/div[1]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[5]/label/div/div[2]/div/input";
-    CrawlUtils.inputElement(wait, emailXpath, "email input", "hyukjun1111@gmail.com");
+      CrawlUtils.inputElement(wait, emailXpath, "email input", "hyukjun1111@gmail.com");
+    } catch (Exception err){
+
+      System.out.print("Login attempt failed trying to look for login 'a' tag\n");
+      String loginXpath = "//*[@id=\"layers\"]/div/div[1]/div/div/div/div/div[2]/div/div/div[1]/a";
+      WebElement loginClick = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(loginXpath)));
+      loginClick.click();
+
+      String emailXpath =
+          "/html/body/div[1]/div/div/div[1]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[5]/label/div/div[2]/div/input";
+      CrawlUtils.inputElement(wait, emailXpath, "email input", "hyukjun1111@gmail.com");
+    }
+
+
+
+
+
+    // putting in my email
+//    String emailXpath =
+//        "/html/body/div[1]/div/div/div[1]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[5]/label/div/div[2]/div/input";
+//    CrawlUtils.inputElement(wait, emailXpath, "email input", "hyukjun1111@gmail.com");
     //    emailInput.sendKeys("hyukjun1111@gmail.com" + Keys.ENTER);
     // putting in my username
     String userNameXpath ="/html/body/div[1]/div/div/div[1]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div[2]/label/div/div[2]/div/input";
