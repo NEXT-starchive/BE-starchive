@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface GoodsRepository extends JpaRepository<Goods, String> {
 
-    Page<Goods> findAllOrderByUploadTimeDesc(Pageable pageable);
+    Page<Goods> findAllByOrderByUploadTimeDesc(Pageable pageable);
 
 }
