@@ -41,6 +41,19 @@ public class UserController {
         return new ResponseEntity<>(new ResponseDto<>(1, "로그인 성공", loginSuccessResDto), HttpStatus.OK);
     }
 
+    @GetMapping("/api/testlogin")
+    public ResponseEntity testlogin(@RequestParam String code) {
+
+        // get accessToken using code
+        String accessToken = oAuthService.getTestAccessToken(code);
+        // get user information using accessToken
+        SocialUserInfo socialUserInfo = oAuthService.getUserInfo(accessToken);
+        // save or update oauth information
+        LoginResDto.LoginSuccessResDto loginSuccessResDto = oAuthService.saveOrUpdate(socialUserInfo);
+
+        return new ResponseEntity<>(new ResponseDto<>(1, "로그인 성공", loginSuccessResDto), HttpStatus.OK);
+    }
+
     @PatchMapping("/api/relogin")
     public ResponseEntity renewJWT(@AuthenticationPrincipal LoginUser loginUser, HttpServletRequest request) {
         String refreshJWT = request.getHeader("ACCESS_AUTHORIZATION");

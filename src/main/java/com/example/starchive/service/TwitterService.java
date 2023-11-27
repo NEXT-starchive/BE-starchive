@@ -46,7 +46,7 @@ public class TwitterService implements CrawlingData {
 
   @Override
   public Page<TwitterResDto> getData(Pageable pageable) {
-    Page<Twitter> goodsList = twitterRepository.findAll(pageable);
+    Page<Twitter> goodsList = twitterRepository.findAllOrderByUploadTimeDesc(pageable);
     Page<TwitterResDto> goodsDtoList = goodsList.map(twit -> new TwitterResDto(twit));
     return goodsDtoList;
   }

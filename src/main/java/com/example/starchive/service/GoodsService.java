@@ -33,7 +33,7 @@ public class GoodsService implements CrawlingData {
 
   @Override
   public Page<GoodsResDto> getData(Pageable pageable) {
-    Page<Goods> goodsList = goodsRepository.findAll(pageable);
+    Page<Goods> goodsList = goodsRepository.findAllOrderByUploadTimeDesc(pageable);
     Page<GoodsResDto> goodsDtoList = goodsList.map(good -> new GoodsResDto(good));
     return goodsDtoList;
   }
