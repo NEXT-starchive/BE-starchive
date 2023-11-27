@@ -1,9 +1,11 @@
 package com.example.starchive.dto;
 
 import com.example.starchive.entity.Youtube;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Getter
 public class YoutubeResDto {
 
     private Long id;
