@@ -33,7 +33,7 @@ public class YoutubeService implements CrawlingData {
 
   @Override
   public Page<YoutubeResDto> getData(Pageable pageable) {
-    Page<Youtube> goodsList = youtubeRepository.findAll(pageable);
+    Page<Youtube> goodsList = youtubeRepository.findAllOrderByUploadTimeDesc(pageable);
     Page<YoutubeResDto> goodsDtoList = goodsList.map(tube -> new YoutubeResDto(tube));
     return goodsDtoList;
   }

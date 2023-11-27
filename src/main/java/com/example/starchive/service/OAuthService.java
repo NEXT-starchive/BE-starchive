@@ -34,11 +34,35 @@ public class OAuthService {
     @Value(("${GOOGLE_REDIRECT_URI}"))
     private String GOOGLE_REDIRECT_URI;
 
+    @Value(("${GOOGLE_REDIRECT_URI_TEST}"))
+    private String GOOGLE_REDIRECT_URI_TEST;
+
     protected final UserRepository userRepository;
     private final JwtProcess jwtProcess;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    // Test
+    public String getTestAccessToken(String code) {
+
+        MultiValueMap<String, String> bodyValue = new LinkedMultiValueMap<>();
+        bodyValue.add("grant_type", "authorization_code");
+        bodyValue.add("client_id", GOOGLE_CLIENT_ID);
+        bodyValue.add("client_secret", GOOGLE_CLIENT_SECRET);
+        bodyValue.add("redirect_uri", GOOGLE_REDIRECT_URI_TEST);
+        bodyValue.add("code", code);
+
+        WebClient client = WebClient.create();
+        return client.post()
+                .uri("https://oauth2.googleapis.com/token")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .bodyValue(bodyValue)
+                .retrieve()
+                .bodyToMono(GoogleOAuthInfo.class)
+                .block()
+                .getAccess_token();
+    }
 
 
     public String getAccessToken(String code) {
