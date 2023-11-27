@@ -2,9 +2,11 @@ package com.example.starchive.dto;
 
 import com.example.starchive.entity.Twitter;
 import com.example.starchive.entity.Youtube;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Getter
 public class TwitterResDto {
 
     private String id;
