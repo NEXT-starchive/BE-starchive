@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TwitterRepository extends JpaRepository<Twitter, String> {
 
-    Page<Twitter> findAll(Pageable pageable);
+    Page<Twitter> findAllOrderByUploadTimeDesc(Pageable pageable);
 
 }
