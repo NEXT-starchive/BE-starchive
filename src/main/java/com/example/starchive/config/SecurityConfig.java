@@ -73,7 +73,7 @@ public class SecurityConfig {
                 // oauth2 모두 허용
                 .antMatchers("/api/login", "/api/users/login/**").permitAll()
                 .antMatchers("/goods", "/twitter", "/youtube").permitAll()
-                .antMatchers("/firstday", "textballon").permitAll()
+                .antMatchers("/firstday", "/textballon").permitAll()
                 // cafe manager join and login
                 .antMatchers("/api/admin/**").hasRole(Role.ADMIN.toString())
                 .anyRequest().authenticated();

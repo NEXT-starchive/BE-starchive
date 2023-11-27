@@ -1,9 +1,11 @@
 package com.example.starchive.dto;
 
 import com.example.starchive.entity.Goods;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Getter
 public class GoodsResDto {
 
     private Long id;
