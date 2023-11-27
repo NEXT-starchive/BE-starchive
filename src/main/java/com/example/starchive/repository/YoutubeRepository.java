@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface YoutubeRepository extends JpaRepository<Youtube, String> {
 
-    Page<Youtube> findAllOrderByUploadTimeDesc(Pageable pageable);
+    Page<Youtube> findAllByOrderByUploadTimeDesc(Pageable pageable);
 
 
 }
